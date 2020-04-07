@@ -2,16 +2,24 @@
     "packageDirectories": [
         {
             "path": "force-app",
-            "default": true,
+            "default": false,
             "package": "salesforceEE",
             "versionName": "ver 0.1",
             "versionNumber": "0.1.0.NEXT"
+        },
+        {
+            "path": "force-app",
+            "package": "salesforceEE6Apr",
+            "versionName": "ver 0.1",
+            "versionNumber": "0.1.0.NEXT",
+            "default": true
         }
     ],
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "47.0",
     "packageAliases": {
-        "salesforceEE": "0Ho2x000000fxSQCAY"
+        "salesforceEE": "0Ho2x000000fxSQCAY",
+        "salesforceEE6Apr": "0Ho2x000000fxSVCAY"
     }
 }
