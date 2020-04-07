@@ -147,7 +147,7 @@ node {
         // Authenticate Sandbox org to install package to.
         // -------------------------------------------------------------------------
 
-        stage('Staging - Sandbox Org') {
+        stage('QA - Sandbox Org') {
           
             echo "Authenticate Sandbox Org to install package to"
             rc = command "${toolbelt}\\sfdx force:auth:sfdxurl:store -f package-sfdx-project.json -s -a myDevelopOrg"
