@@ -26,3 +26,6 @@ insert newContact;
     } catch (Exception e) {
       return false;
   }
+}
+
+}
