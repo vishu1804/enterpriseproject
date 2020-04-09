@@ -86,6 +86,8 @@ node {
             }
         }
 	    stage('Static Code Analysis') {
+		    try
+		    {
 	    //echo 'Doing Code Review for Apex '
 		  if (isUnix()) {
 			  output = sh returnStdout: false, script: "${pmdtool}\\pmd -d force-app/main/default/classes -f html -R ApexRule.xml -reportfile CodeReviewAnalysisOutput.html"
@@ -93,6 +95,12 @@ node {
 		      	    output = bat returnStdout: false, script: "${pmdtool}\\pmd -d force-app/main/default/classes -f html -R ApexRule.xml -reportfile CodeReviewAnalysisOutput.html"
 			}
 		  }
+		catch(err)
+            {
+                echo $err
+                
+            }
+	    }
 	    
 	    
         // -------------------------------------------------------------------------
