@@ -16,6 +16,7 @@ node {
 
 
     def toolbelt = tool 'toolbelt'
+	def pmdtool = tool 'pmd'
     
     
 
