@@ -84,7 +84,7 @@ node {
                 error 'Salesforce push to test scratch org failed.'
             }
         }
-	    stage("Static Code Analysis') {
+	    stage('Static Code Analysis') {
 	    echo 'Doing Code Review for Apex '
 		  if (isUnix()) {
 			  output = sh returnStdout: true, script: "${pmdtool}\\pmd -d . -f html -R \"ApexRule.xml\" -reportfile \"CodeReviewAnalysisOutput.html\""
