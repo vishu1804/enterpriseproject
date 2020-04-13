@@ -44,8 +44,6 @@ node {
 
        
 	    stage('Static Code Analysis') {
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "HTML Report Directory", reportFiles: 'html-file_name', reportName: 'HTML Report', reportTitles: ''])
-
 		    try
 		    {
 	    //echo 'Doing Code Review for Apex '
