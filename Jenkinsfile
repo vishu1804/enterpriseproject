@@ -126,37 +126,33 @@ node {
             
             rc = command "${toolbelt}\\sfdx force:package:install --targetusername QAOrg --package ${PACKAGE_VERSION} --wait 10 --publishwait 10 --noprompt --json"
             // rc = command "${toolbelt}\\sfdx force:package:install --package ${PACKAGE_VERSION} --targetusername installorg --wait 10"
-            if (rc != 0) {
-                error 'Salesforce package install failed.'
+		    if (rc != 0) {
+			error 'Salesforce package install failed.'
+		    }
             }
-            }
+	stage('Production Deployment Approval'){
+    		input 'Do you want to deploy package to Production?'
+		}
+	stage('Authorize Production'){
+		echo "Authenticate Sandbox Org to install package to"
+		rc = command "${toolbelt}\\sfdx force:auth:sfdxurl:store -f package-sfdx-project.json -s -a ProdOrg"
+		 if (rc != 0) {
+                	error 'Authorization to Production failed.'
+            		}
+    		}
+    	stage('Install Package to Production'){
+        	rc = command "${toolbelt}\\sfdx force:package:install --targetusername ProdOrg --package ${PACKAGE_VERSION} --wait 10 --publishwait 10 --noprompt --json"
+        		if (rc != 0) {
+                		error 'Salesforce package install failed.'
+            			}
+    		}
         }    
 
     
     
 }
-stage('Production Deployment Approval'){
-    input 'Do you want to deploy package to Production?'
-}
-node{
-// It's important to have the step outside a node, otherwise jenkins will hold an agent waiting for the next step	
-def toolbelt = tool 'toolbelt'
-     withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'server_key_file')]) {
-     stage('Authorize Production'){
-        echo "Authenticate Sandbox Org to install package to"
-        rc = command "${toolbelt}\\sfdx force:auth:sfdxurl:store -f package-sfdx-project.json -s -a ProdOrg"
-         if (rc != 0) {
-                error 'Authorization to Production failed.'
-            }
-    }
-    stage('Install Package to Production'){
-        rc = command "${toolbelt}\\sfdx force:package:install --targetusername ProdOrg --package ${PACKAGE_VERSION} --wait 10 --publishwait 10 --noprompt --json"
-        if (rc != 0) {
-                error 'Salesforce package install failed.'
-            }
-    }
-     }
-}
+
+
 
 def command(script) {
     if (isUnix()) {
