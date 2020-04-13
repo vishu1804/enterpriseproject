@@ -49,6 +49,9 @@ node {
 	    //echo 'Doing Code Review for Apex '
 		  if (isUnix()) {
 			  output = sh returnStdout: false, script: "${pmdtool}\\pmd -d force-app/main/default/classes -f html -R ApexRule.xml -failOnViolation false -reportfile CodeReviewAnalysisOutput.html"
+
+              echo $pwd
+              
 		  } else {
 		   //bat(returnStdout: true, script: "${toolbelt}\\sfdx force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 10 --json --targetdevhubusername DevHub").trim()
  
