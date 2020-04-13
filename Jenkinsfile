@@ -110,7 +110,7 @@ node {
             rc = command "${toolbelt}\\sfdx force:auth:sfdxurl:store -f package-sfdx-project.json -s -a QAOrg"
             //rc = command "${toolbelt}\\sfdx force:org:create --targetdevhubusername DevHub --setdefaultusername --definitionfile config/project-scratch-def.json --setalias installorg --wait 10 --durationdays 1"
             if (rc != 0) {
-                error 'Salesforce package install scratch org creation failed.'
+                error 'Authorization to Salesforce failed.'
             }
            
         }
@@ -134,6 +134,26 @@ node {
 
     
     
+}
+stage('Production Deployment Approval'){
+    input 'Do you want to deploy package to Production?'
+}
+node{
+     withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'server_key_file')]) {
+    stage('Authorize Production'){
+        echo "Authenticate Sandbox Org to install package to"
+        rc = command "${toolbelt}\\sfdx force:auth:sfdxurl:store -f package-sfdx-project.json -s -a ProdOrg"
+         if (rc != 0) {
+                error 'Authorization to Production failed.'
+            }
+    }
+    stage('Install Package to Production'){
+        rc = command "${toolbelt}\\sfdx force:package:install --targetusername ProdOrg --package ${PACKAGE_VERSION} --wait 10 --publishwait 10 --noprompt --json"
+        if (rc != 0) {
+                error 'Salesforce package install failed.'
+            }
+    }
+     }
 }
 
 def command(script) {
